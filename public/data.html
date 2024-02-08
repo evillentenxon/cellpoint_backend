@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Display</title>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    img{
+      width: 100px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Data Display</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>S.N</th>
+        <th>Title</th>
+        <th>Price</th>
+        <th>Brand</th>
+        <th>Category</th>
+        <th>Image</th>
+      </tr>
+    </thead>
+    <tbody id="dataBody"></tbody>
+  </table>
+
+  <script>
+    var i= 1;
+    fetch('/postData/fetchData')
+      .then(response => response.json())
+      .then(data => {
+        const dataBodyElement = document.getElementById('dataBody');
+        data.data.forEach(item => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${i++}</td>          
+            <td>${item.title}</td>
+            <td>${item.price}</td>
+            <td>${item.brand}</td>
+            <td>${item.category}</td>
+            <td><img src="./images/${item.image}"></td>
+          `;
+          dataBodyElement.appendChild(row);
+        });
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  </script>
+</body>
+</html>
