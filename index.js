@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const postDataRoutes = require('./routes/postData');
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -14,7 +15,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // Connect to MongoDB
-mongoose.connect('mongodb://0.0.0.0:27017/cellpoint', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb://0.0.0.0:27017/cellpoint');
 const db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
@@ -23,7 +24,6 @@ db.once('open', () => {
 });
 
 // Use routes defined in postData.js
-const postDataRoutes = require('./routes/postData');
 app.use('/postData', postDataRoutes);
 
 app.listen(port, () => {

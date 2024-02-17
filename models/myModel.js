@@ -9,7 +9,16 @@ const mobileSchema = new mongoose.Schema({
   image: String
 });
 
-const Mobile = mongoose.model('Mobile', mobileSchema);
+const userDataSchema= new mongoose.Schema({
+  name: String,
+  gender: String,
+  email: String,
+  message: String,
+  image: String
+})
 
-module.exports = Mobile;
+const Mobile = mongoose.model('Mobile', mobileSchema);
+const UserData= mongoose.model('client_datas',userDataSchema);
+
+module.exports = {Mobile,UserData};
 

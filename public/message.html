@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>client_datas</title>
+    <style>
+        body{
+            text-align: center;
+        }
+        table{
+            border-collapse: collapse;
+            width: 100vw;
+            border: 1px solid black;
+        }
+        th,td{
+            border: 1px solid black;            
+        }
+        th{
+            background-color: #777;
+        }
+        .odd{
+            background-color: #ddd;
+        }
+        .even{
+            background-color: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <h1>client datas</h1>
+    <table cell-spacing="0">
+        <thead>
+            <tr>
+                <th>S.N</th>
+                <th>Name</th>
+                <th>Gender</th>
+                <th>Email</th>
+                <th>Message</th>
+                <th>Image</th>
+            </tr>
+        </thead>
+        <tbody id="dataBody"></tbody>
+    </table>
+
+    <script>
+        var i=1;
+        fetch('/postData/userData')
+        .then(response =>response.json())        
+        .then(data =>{
+            const dataBodyElement= document.getElementById('dataBody');
+            data.data.forEach(item=>{
+                const row= document.createElement('tr');
+                row.innerHTML= `
+                <td>${i++}</td>
+                <td>${item.name}</td>
+                <td>${item.gender}</td>
+                <td>${item.email}</td>
+                <td>${item.message}</td>
+                <td>${extractFileName(item.image)}</td>
+                `;
+                row.classList.add(i % 2 == 0 ? 'even' : 'odd');
+                dataBodyElement.appendChild(row);
+            });
+        })
+        .catch(error => console.error('Error fetching data:',error));
+
+        function extractFileName(filePath) {
+        // Extract only the file name from the fake path
+        return filePath.split('\\').pop().split('/').pop();
+    }
+    </script>
+</body>
+</html>
