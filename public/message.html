@@ -1,32 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>client_datas</title>
     <style>
-        body{
+        body {
             text-align: center;
         }
-        table{
+
+        table {
             border-collapse: collapse;
             width: 100vw;
             border: 1px solid black;
         }
-        th,td{
-            border: 1px solid black;            
+
+        th,
+        td {
+            border: 1px solid black;
         }
-        th{
+
+        th {
             background-color: #777;
         }
-        .odd{
+
+        .odd {
             background-color: #ddd;
         }
-        .even{
+
+        .even {
             background-color: #aaa;
+        }
+        img{
+            width: 100px;
         }
     </style>
 </head>
+
 <body>
     <h1>client datas</h1>
     <table cell-spacing="0">
@@ -44,31 +55,32 @@
     </table>
 
     <script>
-        var i=1;
+        var i = 1;
         fetch('/postData/userData')
-        .then(response =>response.json())        
-        .then(data =>{
-            const dataBodyElement= document.getElementById('dataBody');
-            data.data.forEach(item=>{
-                const row= document.createElement('tr');
-                row.innerHTML= `
+            .then(response => response.json())
+            .then(data => {
+                const dataBodyElement = document.getElementById('dataBody');
+                data.data.forEach(item => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
                 <td>${i++}</td>
                 <td>${item.name}</td>
                 <td>${item.gender}</td>
                 <td>${item.email}</td>
                 <td>${item.message}</td>
-                <td>${extractFileName(item.image)}</td>
+                <td><img src="./images/${extractFileName(item.image)}"></td>
                 `;
-                row.classList.add(i % 2 == 0 ? 'even' : 'odd');
-                dataBodyElement.appendChild(row);
-            });
-        })
-        .catch(error => console.error('Error fetching data:',error));
+                    row.classList.add(i % 2 == 0 ? 'even' : 'odd');
+                    dataBodyElement.appendChild(row);
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
 
         function extractFileName(filePath) {
-        // Extract only the file name from the fake path
-        return filePath.split('\\').pop().split('/').pop();
-    }
+            // Extract only the file name from the fake path
+            return filePath.split('\\').pop().split('/').pop();
+        }
     </script>
 </body>
+
 </html>
