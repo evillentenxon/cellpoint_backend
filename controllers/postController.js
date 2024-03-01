@@ -20,7 +20,19 @@ exports.postData = async (req, res) => {
 
 exports.fetchData = async (req, res) => {
   try {
-    const data = await Mobile.find();
+    const { search } = req.query;
+
+    const query = search
+      ? {
+        $or: [
+          { title: { $regex: new RegExp(search, 'i') } },
+          { brand: { $regex: new RegExp(search, 'i') } },
+          { category: { $regex: new RegExp(search, 'i') } },
+        ],
+      }
+      : {};
+
+    const data = await Mobile.find(query);
     res.json({ data });
   }
   catch (error) {
@@ -35,8 +47,8 @@ exports.clientData = async (req, res) => {
     // Fetch data from the HTML form
     const { name, gender, email, message } = req.body;
 
-     // Use req.file.path to get the path of the uploaded file
-     const image = req.file ? req.file.path : undefined;
+    // Use req.file.path to get the path of the uploaded file
+    const image = req.file ? req.file.path : undefined;
 
     // Create a new document using the Mongoose model
     const newData = new UserData({ name, gender, email, message, image });
@@ -51,7 +63,7 @@ exports.clientData = async (req, res) => {
   }
 };
 
-exports.collectUserMsg = async (req, res)=>{
+exports.collectUserMsg = async (req, res) => {
   try {
     const data = await UserData.find();
     res.json({ data });
@@ -61,3 +73,7 @@ exports.collectUserMsg = async (req, res)=>{
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+exports.searchItem = async (req, res) => {
+  // const data= await Mobile.find();
+}

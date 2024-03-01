@@ -18,14 +18,19 @@ const storage = multer.diskStorage({
   const upload = multer({ storage: storage });
   
 
-// Route to insert data from the HTML form
+// sent data into the database
 router.post('/sent', postController.postData);
 
+//sent client data or message into the database
 router.post('/collectData',upload.single('image'),postController.clientData);
 
-//Route to fetch data from the database
+//fetch the products from the database
 router.get('/fetchData',postController.fetchData);
 
-router.get('/userData/', postController.collectUserMsg);
+//fetch the client message 
+router.get('/userData', postController.collectUserMsg);
+
+//search
+router.get('/search',postController.searchItem);
 
 module.exports = router;
