@@ -30,7 +30,7 @@ router.get('/fetchData',postController.fetchData);
 //fetch the client message 
 router.get('/userData', postController.collectUserMsg);
 
-//search
-router.get('/search',postController.searchItem);
+//fetch products by id 
+router.get('/ProductViewPage/:itemId',postController.productDetails);
 
 module.exports = router;

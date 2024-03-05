@@ -41,7 +41,6 @@ exports.fetchData = async (req, res) => {
   }
 };
 
-
 exports.clientData = async (req, res) => {
   try {
     // Fetch data from the HTML form
@@ -74,6 +73,18 @@ exports.collectUserMsg = async (req, res) => {
   }
 };
 
-exports.searchItem = async (req, res) => {
-  // const data= await Mobile.find();
-}
+exports.productDetails = async(req, res) => {
+  try {
+    const { itemId } = req.params;
+    const product = await Mobile.findById(itemId);
+
+    if (!product) {
+      return res.status(404).json({ error: 'Product not found' });
+    }
+
+    res.json({ data: product });
+  } catch (error) {
+    console.error('Error fetching product details: ', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
