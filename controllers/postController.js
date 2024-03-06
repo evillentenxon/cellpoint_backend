@@ -88,3 +88,19 @@ exports.productDetails = async(req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+exports.productCategory = async (req, res) => {
+  try {
+    const { itemCategory } = req.params;
+    const products = await Mobile.find({ category: itemCategory });
+
+    if (!products || products.length === 0) {
+      return res.status(404).json({ error: 'No products found for the specified category' });
+    }
+
+    res.json({ data: products });
+  } catch (error) {
+    console.error('Error fetching products by category: ', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};

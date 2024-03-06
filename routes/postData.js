@@ -33,4 +33,7 @@ router.get('/userData', postController.collectUserMsg);
 //fetch products by id 
 router.get('/ProductViewPage/:itemId',postController.productDetails);
 
+//fetch products by catrgory 
+router.get('/categories/:itemCategory',postController.productCategory);
+
 module.exports = router;
