@@ -36,4 +36,7 @@ router.get('/ProductViewPage/:itemId',postController.productDetails);
 //fetch products by catrgory 
 router.get('/categories/:itemCategory',postController.productCategory);
 
+//khalti payment
+router.post('/order',postController.order);
+
 module.exports = router;

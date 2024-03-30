@@ -1,4 +1,5 @@
 const { Mobile, UserData } = require('../models/myModel');
+const axios = require('axios');
 
 exports.postData = async (req, res) => {
   try {
@@ -104,3 +105,20 @@ exports.productCategory = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+exports.order= async(req,res)=>{
+  try {
+    const response = await axios.post('https://a.khalti.com/api/v2/epayment/initiate/', req.body, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Key 831c7083d7f44fe280b3c15cce1dd053`,
+      }
+    });
+
+    console.log(response.data);
+    res.json(response.data);
+  } catch (error) {
+    console.error('Error:', error.response ? error.response.data : error.message);
+    res.status(500).send('Internal Server Error');
+  }
+}
